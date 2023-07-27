@@ -12,6 +12,13 @@
 	flex: 1 !important	;
 }
 
+.food {
+	background-color: whitesmoke;
+	/* width: 10px;
+	height: 20px; */
+	border-radius: 50% !important;
+}
+
 .snake-head {
 	/* background-color: red; */
 	background-color: #2b3818;
