@@ -26,8 +26,6 @@ export default function GameBox() {
 	}, []);
 
 	useEffect(() => {
-		console.log(snakeHead);
-
 		// Check whether user has lost game;
 		if (
 			snakeHead.x < 0 ||
@@ -48,8 +46,24 @@ export default function GameBox() {
 		// If snake eats new food -> add length
 		if (snakeHead.x === food.x && snakeHead.y === food.y) {
 			console.log("matched");
+			// setChecked([...checked, { ...snakeTail }]);
+
 			generateFoodLocation();
+		} else {
+			// Move snake
+			// checked.pop();
+			setChecked((prevChecked) => {
+				prevChecked = prevChecked.slice(1);
+				return prevChecked;
+			});
+			console.log("setting checked");
 		}
+		console.log("Checked here is", checked);
+		console.log("Adding to checked: ", snakeHead);
+		setChecked((prevChecked) => {
+			return [...prevChecked, { ...snakeHead }];
+		});
+		setSnakeTail({ ...checked[checked.length - 1] });
 	}, [snakeHead]);
 
 	useEffect(() => {
@@ -61,9 +75,12 @@ export default function GameBox() {
 		}
 	}, [status]);
 
+	useEffect(() => {
+		console.log("Checked is", checked);
+	}, [checked]);
+
 	const handleKeyDown = (e) => {
 		if (!(e.code in keys)) return;
-		console.log(e.code);
 		setSnakeHead((prevVal) => {
 			return {
 				x: prevVal.x + keys[e.code].x,
@@ -104,12 +121,6 @@ export default function GameBox() {
 											? "cell-selected"
 											: "cell") + " cell-common"
 									}
-									onClick={() => {
-										console.log(checked, idx, idx2);
-										checked.map((obj) => {
-											console.log(obj.x, idx);
-										});
-									}}
 									key={idx2}></Box>
 							);
 						})}
