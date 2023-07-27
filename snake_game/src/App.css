@@ -3,8 +3,8 @@
 	flex-direction: column !important;
 	height: 80% !important;
 	flex-grow: 1;
-	border-radius: 10px;
-	border: 1px solid green;
+	border-radius: 3px;
+	border: 3px solid #2b3818;
 }
 
 .row {
@@ -13,7 +13,10 @@
 }
 
 .snake-head {
-	background-color: red;
+	/* background-color: red; */
+	background-color: #2b3818;
+
+	border-radius: 100% !important;
 }
 
 .cell-common {
@@ -28,5 +31,5 @@
 }
 
 .cell-selected {
-	background-color: green;
+	background-color: #2b3818;
 }
