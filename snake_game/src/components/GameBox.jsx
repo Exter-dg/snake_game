@@ -9,19 +9,24 @@ const keys = {
 	ArrowLeft: { x: 0, y: -1 },
 	ArrowRight: { x: 0, y: 1 },
 };
+let interval;
+let intervalDuration = 500;
 
 export default function GameBox() {
 	const [checked, setChecked] = useState([]);
 	const [snakeHead, setSnakeHead] = useState({ x: 0, y: 0 });
-	const [snakeTail, setSnakeTail] = useState({ x: 0, y: 0 });
 	const [status, setStatus] = useState(true);
 	const [food, setFood] = useState({ x: 5, y: 5 });
+	const [direction, setDirection] = useState({ x: 0, y: 1 });
 
 	useEffect(() => {
-		console.log("Document Loaded");
 		window.addEventListener("keydown", handleKeyDown);
+
+		interval = setIntervalHelper();
+
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
+			clearInterval(interval);
 		};
 	}, []);
 
@@ -33,19 +38,20 @@ export default function GameBox() {
 			snakeHead.x >= rows ||
 			snakeHead.y >= cols
 		) {
-			console.log("here");
 			setStatus(false);
 			return;
 		}
 
-		if (checked.find((obj) => obj.x === snakeHead.x && obj.y === snakeHead.y)) {
+		if (
+			checked.length > 1 &&
+			checked.find((obj) => obj.x === snakeHead.x && obj.y === snakeHead.y)
+		) {
 			setStatus(false);
 			return;
 		}
 
 		// If snake eats new food -> add length
 		if (snakeHead.x === food.x && snakeHead.y === food.y) {
-			console.log("matched");
 			// setChecked([...checked, { ...snakeTail }]);
 
 			generateFoodLocation();
@@ -56,14 +62,10 @@ export default function GameBox() {
 				prevChecked = prevChecked.slice(1);
 				return prevChecked;
 			});
-			console.log("setting checked");
 		}
-		console.log("Checked here is", checked);
-		console.log("Adding to checked: ", snakeHead);
 		setChecked((prevChecked) => {
 			return [...prevChecked, { ...snakeHead }];
 		});
-		setSnakeTail({ ...checked[checked.length - 1] });
 	}, [snakeHead]);
 
 	useEffect(() => {
@@ -72,21 +74,26 @@ export default function GameBox() {
 			setChecked([]);
 			setSnakeHead({ x: 0, y: 0 });
 			setStatus(true);
+			intervalDuration = 500;
 		}
 	}, [status]);
 
+	// When Direction changes, change the interval
 	useEffect(() => {
-		console.log("Checked is", checked);
-	}, [checked]);
+		clearInterval(interval);
+		interval = setIntervalHelper();
+	}, [direction]);
 
 	const handleKeyDown = (e) => {
 		if (!(e.code in keys)) return;
-		setSnakeHead((prevVal) => {
-			return {
-				x: prevVal.x + keys[e.code].x,
-				y: prevVal.y + keys[e.code].y,
-			};
-		});
+		setDirection({ ...keys[e.code] });
+
+		// setSnakeHead((prevVal) => {
+		// 	return {
+		// 		x: prevVal.x + keys[e.code].x,
+		// 		y: prevVal.y + keys[e.code].y,
+		// 	};
+		// });
 	};
 
 	const generateFoodLocation = () => {
@@ -101,6 +108,18 @@ export default function GameBox() {
 			y = Math.floor(Math.random() * cols);
 		}
 		setFood({ x, y });
+	};
+
+	const setIntervalHelper = () => {
+		if (intervalDuration > 50) intervalDuration -= 10;
+		return setInterval(() => {
+			setSnakeHead((prevVal) => {
+				return {
+					x: prevVal.x + direction.x,
+					y: prevVal.y + direction.y,
+				};
+			});
+		}, intervalDuration);
 	};
 
 	return (
