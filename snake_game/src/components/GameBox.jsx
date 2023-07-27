@@ -13,7 +13,7 @@ const keys = {
 export default function GameBox() {
 	const [checked, setChecked] = useState([]);
 	const [snakeHead, setSnakeHead] = useState({ x: 0, y: 0 });
-	const [status, setStatus] = useState("in progress");
+	const [status, setStatus] = useState(true);
 
 	const handleKeyDown = (e) => {
 		if (!(e.code in keys)) return;
@@ -36,18 +36,35 @@ export default function GameBox() {
 
 	useEffect(() => {
 		console.log(snakeHead);
+
 		// Check whether user has lost game;
 		if (
-			(snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x >= rows,
-			snakeHead.y >= cols)
-		)
-			setStatus("Lost");
+			snakeHead.x < 0 ||
+			snakeHead.y < 0 ||
+			snakeHead.x >= rows ||
+			snakeHead.y >= cols
+		) {
+			console.log("here");
+			setStatus(false);
+			return;
+		}
 
-		if (checked.find((obj) => obj.x === snakeHead.x && obj.y === snakeHead.y))
-			setStatus("Lost");
+		if (checked.find((obj) => obj.x === snakeHead.x && obj.y === snakeHead.y)) {
+			setStatus(false);
+			return;
+		}
 
 		setChecked([...checked, { ...snakeHead }]);
 	}, [snakeHead]);
+
+	useEffect(() => {
+		if (status === false) {
+			alert(`You Lost! Your score is ${checked.length}`);
+			setChecked([]);
+			setSnakeHead({ x: 0, y: 0 });
+			setStatus(true);
+		}
+	}, [status]);
 
 	return (
 		<Box className="game-box">
@@ -59,9 +76,11 @@ export default function GameBox() {
 								<Box
 									component="span"
 									className={
-										checked.find((obj) => obj.x === idx && obj.y === idx2)
+										(snakeHead.x === idx && snakeHead.y === idx2
+											? "snake-head"
+											: checked.find((obj) => obj.x === idx && obj.y === idx2)
 											? "cell-selected"
-											: "cell"
+											: "cell") + " cell-common"
 									}
 									onClick={() => {
 										console.log(checked, idx, idx2);
@@ -75,13 +94,6 @@ export default function GameBox() {
 					</Box>
 				);
 			})}
-			<Button
-				onClick={() => {
-					console.log(checked);
-				}}>
-				Click to find checked
-			</Button>
-			{status}
 		</Box>
 	);
 }

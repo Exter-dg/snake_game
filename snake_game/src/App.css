@@ -3,6 +3,8 @@
 	flex-direction: column !important;
 	height: 80% !important;
 	flex-grow: 1;
+	border-radius: 10px;
+	border: 1px solid green;
 }
 
 .row {
@@ -10,20 +12,21 @@
 	flex: 1 !important	;
 }
 
-.cell {
-	border: 1px solid green;
+.snake-head {
+	background-color: red;
+}
+
+.cell-common {
+	margin: 1px;
 	display: inline-block !important;
 	border-radius: 5px;
-	/* flex-grow: 1 !important; */
 	flex: 1;
-	/* height: 10px; */
+}
+
+.cell {
+	display: inline-block !important;
 }
 
 .cell-selected {
-	border: 1px solid red;
-	display: inline-block !important;
-	border-radius: 5px;
-	/* flex-grow: 1 !important; */
-	flex: 1;
-	/* height: 10px; */
+	background-color: green;
 }
