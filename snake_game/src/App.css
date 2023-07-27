@@ -1,0 +1,29 @@
+.game-box {
+	display: flex !important;
+	flex-direction: column !important;
+	height: 80% !important;
+	flex-grow: 1;
+}
+
+.row {
+	display: flex !important;
+	flex: 1 !important	;
+}
+
+.cell {
+	border: 1px solid green;
+	display: inline-block !important;
+	border-radius: 5px;
+	/* flex-grow: 1 !important; */
+	flex: 1;
+	/* height: 10px; */
+}
+
+.cell-selected {
+	border: 1px solid red;
+	display: inline-block !important;
+	border-radius: 5px;
+	/* flex-grow: 1 !important; */
+	flex: 1;
+	/* height: 10px; */
+}
