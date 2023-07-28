@@ -56,7 +56,7 @@ export default function GameBox({ setScore, setLevel, score }) {
 			if (intervalDuration > 50) intervalDuration -= 10;
 
 			// Set Worm Level
-			if (checked.length % 2 === 0) setLevel(checked.length);
+			setLevel(checked.length);
 
 			// Set Score
 			// Less interval time -> More increase in score
