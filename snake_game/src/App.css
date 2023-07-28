@@ -1,10 +1,20 @@
 .game-box {
+	margin-top: 2rem !important;
 	display: flex !important;
 	flex-direction: column !important;
 	height: 80% !important;
-	flex-grow: 1;
+	width: 100% !important;
+	/* flex-grow: 1 !important; */
 	border-radius: 3px;
 	border: 3px solid #2b3818;
+}
+
+.display-text {
+	color: #2b3818 !important;
+	font-size: 24px !important;
+	font-family: monospace !important;
+	font-weight: 600 !important;
+	letter-spacing: 0 !important;
 }
 
 .row {

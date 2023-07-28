@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 const rows = 20;
@@ -10,14 +10,14 @@ const keys = {
 	ArrowRight: { x: 0, y: 1 },
 };
 let interval;
-let intervalDuration = 200;
+let intervalDuration = 250;
 
-export default function GameBox() {
+export default function GameBox({ setScore, setLevel, score }) {
 	const [checked, setChecked] = useState([]);
 	const [snakeHead, setSnakeHead] = useState({ x: 0, y: 0 });
 	const [status, setStatus] = useState(true);
 	const [food, setFood] = useState({ x: 5, y: 5 });
-	const [direction, setDirection] = useState({ x: 0, y: 1 });
+	const [direction, setDirection] = useState({ x: 0, y: 0 });
 
 	useEffect(() => {
 		window.addEventListener("keydown", handleKeyDown);
@@ -52,7 +52,15 @@ export default function GameBox() {
 
 		// If snake eats new food -> add length
 		if (snakeHead.x === food.x && snakeHead.y === food.y) {
-			// setChecked([...checked, { ...snakeTail }]);
+			// Decrease interval snake length increases
+			if (intervalDuration > 50) intervalDuration -= 10;
+
+			// Set Worm Level
+			if (checked.length % 2 === 0) setLevel(checked.length / 2);
+
+			// Set Score
+			// Less interval time -> More increase in score
+			setScore((prevScore) => prevScore + (1000 - intervalDuration) / 10);
 
 			generateFoodLocation();
 		} else {
@@ -70,12 +78,14 @@ export default function GameBox() {
 
 	useEffect(() => {
 		if (status === false) {
-			alert(`You Lost! Your score is ${checked.length}`);
+			alert(`You Lost! Your score is ${score}`);
 			setChecked([]);
 			setSnakeHead({ x: 0, y: 0 });
 			setStatus(true);
-			setDirection({ x: 0, y: 1 });
-			intervalDuration = 500;
+			setDirection({ x: 0, y: 0 });
+			setLevel(0);
+			setScore(1);
+			intervalDuration = 250;
 		}
 	}, [status]);
 
@@ -98,9 +108,6 @@ export default function GameBox() {
 	};
 
 	const generateFoodLocation = () => {
-		// Decrease interval snake length increases
-		if (intervalDuration > 50) intervalDuration -= 10;
-
 		let x = food.x;
 		let y = food.y;
 
