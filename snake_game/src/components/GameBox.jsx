@@ -10,7 +10,7 @@ const keys = {
 	ArrowRight: { x: 0, y: 1 },
 };
 let interval;
-let intervalDuration = 300;
+let intervalDuration = 200;
 
 export default function GameBox() {
 	const [checked, setChecked] = useState([]);

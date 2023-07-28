@@ -22,6 +22,7 @@
 .snake-head {
 	/* background-color: red; */
 	background-color: #2b3818;
+	transition: 0.1s ease;
 
 	border-radius: 100% !important;
 }
@@ -35,6 +36,7 @@
 
 .cell {
 	display: inline-block !important;
+	transition: 0.5s linear;
 }
 
 .cell-selected {
