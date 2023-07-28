@@ -10,7 +10,7 @@ const keys = {
 	ArrowRight: { x: 0, y: 1 },
 };
 let interval;
-let intervalDuration = 500;
+let intervalDuration = 300;
 
 export default function GameBox() {
 	const [checked, setChecked] = useState([]);
@@ -74,6 +74,7 @@ export default function GameBox() {
 			setChecked([]);
 			setSnakeHead({ x: 0, y: 0 });
 			setStatus(true);
+			setDirection({ x: 0, y: 1 });
 			intervalDuration = 500;
 		}
 	}, [status]);
