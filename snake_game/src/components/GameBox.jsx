@@ -97,6 +97,9 @@ export default function GameBox() {
 	};
 
 	const generateFoodLocation = () => {
+		// Decrease interval snake length increases
+		if (intervalDuration > 50) intervalDuration -= 10;
+
 		let x = food.x;
 		let y = food.y;
 
@@ -111,7 +114,6 @@ export default function GameBox() {
 	};
 
 	const setIntervalHelper = () => {
-		if (intervalDuration > 50) intervalDuration -= 10;
 		return setInterval(() => {
 			setSnakeHead((prevVal) => {
 				return {
